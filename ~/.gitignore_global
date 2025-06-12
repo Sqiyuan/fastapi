@@ -1,0 +1,101 @@
+# 操作系统
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 编辑器
+*.swp
+*~
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 开发环境
+node_modules/
+bower_components/
+.sass-cache/
+.env
+.env.local
+
+# 日志文件
+*.log
+
+# 依赖目录
+node_modules/
+
+# 编译产物
+/build/
+/dist/
+*.exe
+*.dll
+
+# Python 编译缓存
+__pycache__/
+*.py[cod]
+
+# 临时文件
+*.tmp
+*.bak
+*.orig
+*.rej
+*.so
+*.pyc
+*.pyo
+*.exe
+*.dll
+*.obj
+*.o
+*.a
+*.lib
+*.dylib
+*.so
+*.pyc
+*.pyo
+*.exe
+*.dll
+*.obj
+*.o
+*.a
+*.lib
+
+# 测试文件
+*.test
+*.tests
+
+# 临时文件
+*.tmp
+*.bak
+*.orig
+*.rej
+*.so
+*.pyc
+*.pyo
+*.exe
+*.dll
+*.obj
+*.o
+*.a
+*.lib
+*.dylib
+*.so
+*.pyc
+*.pyo
+*.exe
+*.dll
+
+# 配置文件
+*.config
+*.settings
+
+# 忽略文件
+*.ignore
+
+
+
