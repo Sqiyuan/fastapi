@@ -52,5 +52,31 @@ async def main_3():
     print(task2.cancelled())
     print(task3.cancelled())
 
+
+# 用gather创建任务组
+@async_timed
+async def main_4():
+    # gather再将所有任务执行完成后，按照入队顺序存放在result中
+    result = await asyncio.gather(
+        greet("Alice", 2),
+        greet("Bob", 3),
+        greet("Charlie", 4),
+        return_exceptions=True  
+        # gather内部就算出现异常仍然会执行所有任务
+    )
+    print(result)
+
+# 使用as_completed 完成一个任务返回一个
+@async_timed
+async def main_5():
+    aws = [
+        greet("Alice", 2),
+        greet("Bob", 1),
+        greet("Charlie", 3),
+    ]
+    for task in asyncio.as_completed(aws, timeout= 2.5):
+        print(await task)
+
+
 if  __name__ == "__main__":
-    asyncio.run(main_3())
+    asyncio.run(main_5())
