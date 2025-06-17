@@ -8,7 +8,6 @@ async def greet(name, delay):
 # 1、wait for
 @async_timed
 async def main():
-   
     result = await asyncio.wait_for(greet("Alice", 2), timeout=1)
     # 如果协程超时了，那就没法继续运行了
     print(result)
