@@ -1,7 +1,25 @@
-from fastapi import FastAPI, Path
+from fastapi import Depends, FastAPI, Header, Path, Cookie, Response
+from fastapi.responses import JSONResponse
 from typing import Optional
+from pydantic import BaseModel, field_validator, Field
 
 app = FastAPI()
+
+print("http://127.0.0.1:8000/docs")
+
+class Item(BaseModel):
+    name: str = Field(max_length=10, title="Name of the item", description="Name of the item")
+    price: float
+    is_offer: Optional[bool] = None
+
+    @field_validator("name")
+    @classmethod
+    def name_val(cls, value: str) -> str:
+        if len(value) < 3:
+            raise ValueError("name must be at least 3 characters long")
+        if ' ' in value:
+            raise ValueError("name must not contain spaces")
+        return value
 
 @app.get("/")
 async def root():
@@ -16,5 +34,72 @@ async def read_item(item_id: str = Path(max_length=6, description='这是一个i
     :param q: q
     :return: item_id, q
     """
-    print("http://127.0.0.1:8000/docs")
     return {"item_id": item_id, "q": q}  
+
+@app.post("/items/{item_id}")
+async def create_item(item_id: int, item: Item, q: Optional[str] = None):
+    """
+    测试请求体参数
+    :param item: item
+    :return: item
+    """
+    print(f"item_id:{item_id}")
+    print(f"item.name:{item.name}, item.price:{item.price}, item.is_offer:{item.is_offer}")
+    return item
+
+@app.get('/cookie/get')
+async def get_cookie(username: str | None = Cookie()):
+    """
+    获取cookie
+    :param 
+    :return: cookie
+    """
+    print(f"username:{username}")
+    return "success"
+
+@app.get('/cookie/set')
+async def set_cookie():
+    """
+    设置cookie
+    :param response: response
+    :return: cookie
+    """
+    response = JSONResponse(content={"message": "set cookie success"})
+    response.set_cookie(key="username", value="Kieran")
+    return response
+
+@app.get('/header')
+async def get_header(
+    user_agent: str | None = Header(default=None),
+    host: str | None = Header(default=None),
+    ):
+    """
+    获取header
+    :param user_agent: user_agent
+    :return: header
+    """
+    print(f"user_agent:{user_agent}")
+    print(f"host:{host}")
+    return "success"
+
+
+####################函数依赖注入####################
+async def list_common(page: int = 1, size: int = 10, q: str | None = None):
+    """
+    函数依赖注入
+    :param page: page
+    :param size: size
+    :param q: q
+    :return: list
+    """
+    return {'page': page, 'size': size, 'q': q}
+
+@app.get('/list')
+async def list_get(list_common: dict = Depends(list_common)):
+    """
+    函数依赖注入
+    :param list_common: list_common
+    :return: list
+    """
+    print(f"page:{list_common['page']}, size:{list_common['size']}, q:{list_common['q']}")
+    return list_common
