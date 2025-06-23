@@ -37,7 +37,7 @@ node_modules/
 *.dll
 
 # Python 编译缓存
-__pycache__
+__pycache__/
 *.py[cod]
 
 # 临时文件

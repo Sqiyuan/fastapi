@@ -1,11 +1,10 @@
+from ctypes import sizeof
 from fastapi import Depends, FastAPI, Header, Path, Cookie, Response
 from fastapi.responses import JSONResponse
 from typing import Optional
 from pydantic import BaseModel, field_validator, Field
 
 app = FastAPI()
-
-print("http://127.0.0.1:8000/docs")
 
 class Item(BaseModel):
     name: str = Field(max_length=10, title="Name of the item", description="Name of the item")
@@ -103,3 +102,27 @@ async def list_get(list_common: dict = Depends(list_common)):
     """
     print(f"page:{list_common['page']}, size:{list_common['size']}, q:{list_common['q']}")
     return list_common
+####################函数依赖注入####################
+
+
+####################类依赖注入####################
+class CommonQueryParams:
+    def __init__(self, page: int = 1, size: int = 10, q: str | None = None):
+        self.page = page
+        self.size = size
+        self.q = q
+
+    def get_q_len(self):
+        return {'q_len': len(self.q) if self.q is not None else 0}
+
+@app.get('/class_list')
+async def class_list(class_list = Depends(CommonQueryParams)):
+    """
+    类依赖注入
+    :param class_list: class_list
+    :return: list
+    """
+    print(f"page:{class_list.page}, size:{class_list.size}, q:{class_list.get_q_len()}")
+    return "success"
+
+####################类依赖注入####################
