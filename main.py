@@ -4,7 +4,12 @@ from fastapi.responses import JSONResponse
 from typing import Optional
 from pydantic import BaseModel, field_validator, Field
 
+from routers import users, items
+
 app = FastAPI()
+
+app.include_router(users.router)
+app.include_router(items.router)
 
 class Item(BaseModel):
     name: str = Field(max_length=10, title="Name of the item", description="Name of the item")
