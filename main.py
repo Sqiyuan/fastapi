@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from ctypes import sizeof
 from fastapi import Depends, FastAPI, Header, Path, Cookie, Response
 from fastapi.responses import JSONResponse
@@ -11,16 +10,6 @@ app = FastAPI()
 
 app.include_router(users.router)
 app.include_router(items.router)
-=======
-from fastapi import FastAPI, Path, Cookie, Response
-from fastapi.responses import JSONResponse
-from typing import Optional
-from pydantic import BaseModel, field_validator, Field
-
-app = FastAPI()
-
-print("http://127.0.0.1:8000/docs")
->>>>>>> 18335e1dff5df06e8d714775d3f94cf633900f6e
 
 class Item(BaseModel):
     name: str = Field(max_length=10, title="Name of the item", description="Name of the item")
@@ -81,7 +70,6 @@ async def set_cookie():
     """
     response = JSONResponse(content={"message": "set cookie success"})
     response.set_cookie(key="username", value="Kieran")
-<<<<<<< HEAD
     return response
 
 @app.get('/header')
@@ -143,6 +131,3 @@ async def class_list(class_list = Depends(CommonQueryParams)):
     return "success"
 
 ####################类依赖注入####################
-=======
-    return response
->>>>>>> 18335e1dff5df06e8d714775d3f94cf633900f6e
