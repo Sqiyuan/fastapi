@@ -23,3 +23,4 @@ Base = declarative_base() # 创建基类
 
 #导入其他模型的Python文件
 from models import users
+from models import articles
